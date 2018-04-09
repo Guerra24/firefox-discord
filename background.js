@@ -1,68 +1,53 @@
-const DiscordRPC = require("discord-rpc");
-//DiscordRPC.register('388699573834743808');
-const client = new DiscordRPC.Client({ transport: "ipc" });
-const parse = require("parse-duration");
-const moment = require("moment");
-const express = require('express');
-const app = express();
+function onError(error) {
+	console.log(`Error: ${error}`);
+}
 
-app.use(express.json());
+function getTabJson(currentTab) {
+	var response = {
+		tabURL: currentTab.url,
+		tabTitle: currentTab.title,
+	}	
+	return JSON.stringify(response);
+}
 
-function setRP(type, tabTitle, tabURL, iconName) {
-    // if(type === 'idle') {
-    //     client.setActivity({
-    //         details: `${tabTitle}`,
-    //         state: `${tabURL}`,
-    //         startTimestamp: moment(new Date()).add(parse("-0s"), "ms").toDate(),
-    //         largeImageKey: 'firefox-large',
-    //         instance: false,
-    //     })
-    // } else {
-        if(type === 'normal') {
-            if(iconName) {
-                client.setActivity({
-                    details: `Browsing ${tabTitle}`,
-                    state: `On ${tabURL}`,
-                    startTimestamp: moment(new Date()).add(parse("-0s"), "ms").toDate(),
-                    largeImageKey: `${iconName}`,
-                    smallImageKey: 'firefox-small',
-                    smallImageText: 'Firefox',
-                    instance: false,
-                })
-            } else {
-                client.setActivity({
-                    details: `Browsing ${tabTitle}`,
-                    state: `On ${tabURL}`,
-                    startTimestamp: moment(new Date()).add(parse("-0s"), "ms").toDate(),
-                    largeImageKey: 'firefox-large',
-                    largeImageText: 'Firefox',
-                    instance: false,
-                })
-            }
-        }
-    //}
-};  
+function sendData(tab) {
+	if (tab.incognito)
+		return;
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "http://localhost:1337/setRP", true);
+	xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+	xhr.send(getTabJson(tab));
+	//console.log(getTabJson(tab));
+}
+function handleActivated(activeInfo) {
+	var tabq = browser.tabs.get(activeInfo.tabId);
+	tabq.then(function(tab) {
+		sendData(tab);
+	});
+}
 
-client.on("ready", () => {
-    console.log("Logged in with RPC!");
-    setRP('normal', 'Idle', 'Firefox');
-});
+function handleUpdated(tabId, changeInfo, tabInfo) {
+	var tabq = browser.tabs.get(tabId);
+	tabq.then(function(tab) {
+		if (tab.active)
+			sendData(tab);
+	});
+}
 
-app.post('/setRP', (req, res) => {
-    if(req.body.iconName) {
-        setRP('normal', req.body.tabTitle, req.body.tabURL, req.body.iconName)
-    } else {
-        setRP('normal', req.body.tabTitle, req.body.tabURL)
-    }
-    // res.send({
-    //     status: 'success',
-    //     data: {
-    //         tabURL: req.body.tabURL,
-    //         tabTitle: req.body.tabTitle
-    //     }
-    // });
-    console.log(req.body)
-});
+function handleFocus(windowId) {
+	if (windowId < 0) 
+		return;
+	var wq = browser.windows.get(windowId);
+	wq.then(function(win) {
+		if (win.focused) {		
+			var tabq = browser.tabs.query({active: true, currentWindow: true});
+			tabq.then(function(rtab) {
+				sendData(rtab[0]);
+			});
+		}
+	});
+}
 
-app.listen(1337, () => console.log('Example app listening on port 1337!'));
-client.login('388699573834743808').catch(console.error);
+browser.windows.onFocusChanged.addListener(handleFocus);
+browser.tabs.onUpdated.addListener(handleUpdated);
+browser.tabs.onActivated.addListener(handleActivated);

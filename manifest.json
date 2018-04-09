@@ -1,20 +1,18 @@
 {
-  
-    "description": "Adds Discord Rich Presence to Firefox",
-    "manifest_version": 2,
-    "name": "firefox-discord",
-    "version": "1.0",
-    "homepage_url": "https://github.com/Chronomly/firefox-discord",
-  
-    "permissions": [
-      "activeTab", "tabs", "http://localhost:1337/*"
-    ],
-
-    "content_scripts": [
-      {
-        "matches": ["http://mozilla.org/*", "https://mozilla.org/*"],
-        "js": ["content-script.js"]
-      }
-    ]
-  
+	"description": "Adds Discord Rich Presence to Firefox",
+	"manifest_version": 2,
+	"name": "discord-rich-presence",
+	"version": "1.0.0",
+	"permissions": [
+		"<all_urls>", "tabs", "http://localhost:1337/*"
+	],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"applications": {
+		"gecko": {
+			"id": "discord-rich-presence@luxvacuos.net",
+			"strict_min_version": "42.0"
+		}
+	}  
 }
