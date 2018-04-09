@@ -6,4 +6,4 @@ Finally, a real use for Discord Rich Presence, Allowing anyone on Discord to see
 
 # Credits
 
-Original Developer: Chronomly
+Original Developer: [Chronomly](https://github.com/Chronomly)
