@@ -12,7 +12,9 @@
 		"uws": "^9.14.0"
 	},
 	"scripts": {
-		"start": "electron ."
+		"start": "electron .",
+		"pack": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder --dir",
+		"dist": "ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true electron-builder"
 	},
 	"repository": {
 		"type": "git",
@@ -22,6 +24,10 @@
 	"license": "GPL-3.0",
 	"keywords": [],
 	"devDependencies": {
-		"electron": "^1.8.4"
+		"electron": "^1.8.4",
+		"electron-builder": "^20.8.1"
+	},
+	"build": {
+		"appId": "net.luxvacuos.firefoxdiscord"
 	}
 }
