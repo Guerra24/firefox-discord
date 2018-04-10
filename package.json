@@ -28,6 +28,12 @@
 		"electron-builder": "^20.8.1"
 	},
 	"build": {
-		"appId": "net.luxvacuos.firefoxdiscord"
+		"appId": "net.luxvacuos.firefoxdiscord",
+		"files": [
+			"**/*",
+			"!addon/**/*",
+			"!.clang-format",
+			"!README.md"
+		]
 	}
 }
