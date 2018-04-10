@@ -1,18 +1,27 @@
 {
-  "name": "firefox-discord-rich-presence",
-  "version": "1.0.0",
-  "description": "Firefox Discord Rich Presence",
-  "main": "server.js",
-  "dependencies": {
-    "discord-rpc": "^3.0.0-beta.6",
-    "express": "^4.16.2",
-    "moment": "^2.19.3",
-    "parse-duration": "^0.1.1",
-    "snekfetch": "^3.6.1",
-    "uws": "^9.14.0"
-  },
-  "devDependencies": {},
-  "author": "Chronomly",
-  "license": "GPL-3.0",
-  "keywords": []
+	"name": "firefox-discord-rich-presence",
+	"version": "1.0.1",
+	"description": "Firefox Discord Rich Presence",
+	"main": "main.js",
+	"dependencies": {
+		"discord-rpc": "^3.0.0-beta.6",
+		"express": "^4.16.2",
+		"moment": "^2.19.3",
+		"parse-duration": "^0.1.1",
+		"snekfetch": "^3.6.1",
+		"uws": "^9.14.0"
+	},
+	"scripts": {
+		"start": "electron ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Guerra24/firefox-discord"
+	},
+	"author": "Chronomly",
+	"license": "GPL-3.0",
+	"keywords": [],
+	"devDependencies": {
+		"electron": "^1.8.4"
+	}
 }

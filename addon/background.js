@@ -4,9 +4,9 @@ function onError(error) {
 
 function getTabJson(currentTab) {
 	var response = {
-		tabURL: currentTab.url,
-		tabTitle: currentTab.title,
-	}	
+		tabURL : currentTab.url,
+		tabTitle : currentTab.title,
+	};
 	return JSON.stringify(response);
 }
 
@@ -17,7 +17,7 @@ function sendData(tab) {
 	xhr.open("POST", "http://localhost:1337/setRP", true);
 	xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 	xhr.send(getTabJson(tab));
-	//console.log(getTabJson(tab));
+	// console.log(getTabJson(tab));
 }
 function handleActivated(activeInfo) {
 	var tabq = browser.tabs.get(activeInfo.tabId);
@@ -35,12 +35,12 @@ function handleUpdated(tabId, changeInfo, tabInfo) {
 }
 
 function handleFocus(windowId) {
-	if (windowId < 0) 
+	if (windowId < 0)
 		return;
 	var wq = browser.windows.get(windowId);
 	wq.then(function(win) {
-		if (win.focused) {		
-			var tabq = browser.tabs.query({active: true, currentWindow: true});
+		if (win.focused) {
+			var tabq = browser.tabs.query({active : true, currentWindow : true});
 			tabq.then(function(rtab) {
 				sendData(rtab[0]);
 			});
