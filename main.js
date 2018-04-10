@@ -11,6 +11,7 @@ app.on('ready', () => {
 		{
 			label : 'Quit',
 			click : () => {
+				express.client.destroy();
 				express.server.close();
 				app.quit();
 			}

@@ -1,6 +1,6 @@
 {
 	"name": "firefox-discord-rich-presence",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Firefox Discord Rich Presence",
 	"main": "main.js",
 	"dependencies": {

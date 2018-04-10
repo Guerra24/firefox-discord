@@ -46,7 +46,7 @@ var server = app.listen(1337, () => console.log('Express port: 1337'));
 
 exports.server = server;
 
-// Discord RDP
+// Discord RPC
 
 client.on('ready', () => {
 	console.log('Logged in with RPC!');
@@ -54,3 +54,5 @@ client.on('ready', () => {
 });
 
 client.login('433007687819853824').catch(console.error);
+
+exports.client = client;
